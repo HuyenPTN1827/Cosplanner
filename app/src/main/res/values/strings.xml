@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Cosplanner</string>
+    <string name="filter_status_header">Hiển thị:</string>
+    <string name="sort_type_header">Phân loại theo:</string>
+    <string name="order_type_header">Sắp xếp theo:</string>
+    <string name="cos_list_empty_text">No records found</string>
+    <string name="con_desc_image_cos">Cosplay Image</string>
+    <string name="bought">Đã mua</string>
+    <string name="made">Đã làm</string>
+</resources>
