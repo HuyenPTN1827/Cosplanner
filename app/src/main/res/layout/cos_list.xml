@@ -17,7 +17,7 @@
         android:id="@+id/CosList_ActionBar"
         android:focusableInTouchMode="true"
         android:descendantFocusability="beforeDescendants"
-        android:background="#2e373b"
+        android:background="@color/action_bar"
         android:paddingTop="2dp"
         android:paddingBottom="2dp">
 
