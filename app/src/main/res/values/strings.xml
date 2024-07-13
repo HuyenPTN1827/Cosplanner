@@ -3,8 +3,25 @@
     <string name="filter_status_header">Hiển thị:</string>
     <string name="sort_type_header">Phân loại theo:</string>
     <string name="order_type_header">Sắp xếp theo:</string>
-    <string name="cos_list_empty_text">No records found</string>
+    <string name="cos_list_empty_text">Không tìm thấy Project Cosplay nào</string>
     <string name="con_desc_image_cos">Cosplay Image</string>
     <string name="bought">Đã mua</string>
     <string name="made">Đã làm</string>
+    <string name="cos_title_new">Project Cosplay Mới</string>
+    <string name="cos_in_process">Đang làm</string>
+    <string name="cos_planned">Dự định</string>
+    <string name="con_desc_ic_form_character">Icon Form Character</string>
+    <string name="con_desc_ic_form_series">Icon Form Series</string>
+    <string name="con_desc_ic_form_init_date">Icon Form Init Date</string>
+    <string name="con_desc_ic_form_due_date">Icon Form Due Date</string>
+    <string name="con_desc_ic_form_budget">Icon Form Budget</string>
+    <string name="cos_character_hint">Tên nhân vật</string>
+    <string name="cos_series_hint">Anime-Manga-Comic?</string>
+    <string name="cos_date_text">Ngày bắt đầu</string>
+    <string name="cos_due_date_text">Ngày kết thúc (dự kiến)</string>
+    <string name="cos_budget_text">Ngân quỹ (dự kiến)</string>
+    <string name="save">Lưu</string>
+    <string name="cancel">Huỷ</string>
+<!--    <string name="close">Đóng</string>-->
+    <string name="delete">Xoá</string>
 </resources>

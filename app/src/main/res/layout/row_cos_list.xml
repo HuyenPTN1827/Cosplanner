@@ -24,7 +24,7 @@
         <TextView
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="#fafafa"
+            android:textColor="@color/white"
             android:gravity="bottom|left|center_vertical|center_horizontal|center"
             android:id="@+id/CosListName"
             android:layout_width="match_parent"
@@ -137,7 +137,7 @@
 
         <ProgressBar
             android:layout_gravity="right|center_vertical|center_horizontal|center"
-            android:id="@+id/CosListViewBrokenPercentProgresBarMake"
+            android:id="@+id/CosListViewBrokenPercentProgressBarMake"
             android:layout_width="75dp"
             android:layout_height="3dp"
             android:max="100"
