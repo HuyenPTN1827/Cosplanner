@@ -94,13 +94,11 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
-            <Button
-                android:id="@+id/btn_btnAddItem"
+            <ImageView
+                android:id="@+id/ic_addItem"
                 android:layout_width="50sp"
                 android:layout_height="match_parent"
-                android:background="@drawable/ic_add"
-                android:backgroundTintMode="screen"
-                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_add"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
