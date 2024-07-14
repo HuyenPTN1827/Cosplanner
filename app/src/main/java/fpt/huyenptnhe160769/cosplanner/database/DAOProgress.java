@@ -58,7 +58,8 @@ public class DAOProgress {
     }
 
     public CPImage[] getAllProgress(long fkCos) {
-        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, this.allColumns, "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
+        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, this.allColumns,
+                "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
         CPImage[] arrayProgress = new CPImage[cursor.getCount()];
         int idx = 0;
         cursor.moveToFirst();

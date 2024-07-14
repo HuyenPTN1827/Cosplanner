@@ -13,7 +13,10 @@ import java.util.List;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
 
 public class DAOElement {
-    private String[] allColumns = {"_id", "FK_COS", "TYPE", "NAME", CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, CosplannerSQLiteHelper.CP_ELEMENT_COST, CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, "DISP_ORDER", "NOTES", CosplannerSQLiteHelper.CP_ELEMENT_PRIORITY, CosplannerSQLiteHelper.CP_ELEMENT_HAS_PHOTO, CosplannerSQLiteHelper.CP_ELEMENT_WEIGHT};
+    private String[] allColumns = {"_id", "FK_COS", "NAME", CosplannerSQLiteHelper.CP_ELEMENT_COST,
+            CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM,
+            "DISP_ORDER", "NOTES", CosplannerSQLiteHelper.CP_ELEMENT_PRIORITY,
+            CosplannerSQLiteHelper.CP_ELEMENT_HAS_PHOTO};
     private SQLiteDatabase database;
     private CosplannerSQLiteHelper dbHelper;
     private BackupManager mBackupManager;
@@ -32,7 +35,8 @@ public class DAOElement {
     }
 
     public Element getElement(long id) {
-        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, this.allColumns, "_id = " + id, (String[]) null, (String) null, (String) null, (String) null);
+        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, this.allColumns,
+                "_id = " + id, (String[]) null, (String) null, (String) null, (String) null);
         cursor.moveToFirst();
         Element element = cursorToElement(cursor);
         cursor.close();
@@ -44,10 +48,10 @@ public class DAOElement {
         int i2 = 1;
         ContentValues values = new ContentValues();
         values.put("FK_COS", Long.valueOf(e.getFkCos()));
-        values.put("TYPE", Integer.valueOf(e.getType()));
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_WEIGHT, Integer.valueOf(e.getWeight()));
+//        values.put("TYPE", Integer.valueOf(e.getType()));
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_WEIGHT, Integer.valueOf(e.getWeight()));
         values.put("NAME", e.getName());
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, Integer.valueOf(e.getPercent()));
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, Integer.valueOf(e.getPercent()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_COST, Double.valueOf(e.getCost()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, Integer.valueOf(e.getTimeHH()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, Integer.valueOf(e.getTimeMM()));
@@ -73,7 +77,7 @@ public class DAOElement {
         int i2 = 1;
         ContentValues values = new ContentValues();
         values.put("NAME", e.getName());
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, Integer.valueOf(e.getPercent()));
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, Integer.valueOf(e.getPercent()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, Integer.valueOf(e.getTimeHH()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, Integer.valueOf(e.getTimeMM()));
         values.put(CosplannerSQLiteHelper.CP_ELEMENT_COST, Double.valueOf(e.getCost()));
@@ -99,24 +103,24 @@ public class DAOElement {
         this.database.update(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, values, "_id = " + elementId, (String[]) null);
     }
 
-    public void switchToBuy(Element e) {
-        ContentValues values = new ContentValues();
-        values.put("TYPE", 1);
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, 0);
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, 0);
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, 0);
-        this.database.update(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, values, "_id = " + e.getId(), (String[]) null);
-        this.mBackupManager.dataChanged();
-    }
-
-    public void switchToMake(Element e) {
-        ContentValues values = new ContentValues();
-        values.put("TYPE", 2);
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, 0);
-        values.put(CosplannerSQLiteHelper.CP_ELEMENT_COST, 0);
-        this.database.update(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, values, "_id = " + e.getId(), (String[]) null);
-        this.mBackupManager.dataChanged();
-    }
+//    public void switchToBuy(Element e) {
+//        ContentValues values = new ContentValues();
+//        values.put("TYPE", 1);
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, 0);
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, 0);
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, 0);
+//        this.database.update(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, values, "_id = " + e.getId(), (String[]) null);
+//        this.mBackupManager.dataChanged();
+//    }
+//
+//    public void switchToMake(Element e) {
+//        ContentValues values = new ContentValues();
+//        values.put("TYPE", 2);
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, 0);
+//        values.put(CosplannerSQLiteHelper.CP_ELEMENT_COST, 0);
+//        this.database.update(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, values, "_id = " + e.getId(), (String[]) null);
+//        this.mBackupManager.dataChanged();
+//    }
 
     public void deleteElement(long id) {
         this.database.delete(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, "_id = " + id, (String[]) null);
@@ -130,7 +134,8 @@ public class DAOElement {
 
     public List<Element> getAllElements(long fkCos) {
         List<Element> elementList = new ArrayList<>();
-        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, this.allColumns, "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, "TYPE ASC");
+        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_ELEMENT, this.allColumns,
+                "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, "TYPE ASC");
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             elementList.add(cursorToElement(cursor));
@@ -146,9 +151,9 @@ public class DAOElement {
         Element element = new Element();
         element.setId(cursor.getLong(0));
         element.setFkCos(cursor.getLong(1));
-        element.setType(cursor.getInt(2));
+//        element.setType(cursor.getInt(2));
         element.setName(cursor.getString(3));
-        element.setPercent(cursor.getInt(4));
+//        element.setPercent(cursor.getInt(4));
         element.setCost(cursor.getDouble(5));
         element.setTimeHH(cursor.getInt(6));
         element.setTimeMM(cursor.getInt(7));
@@ -168,7 +173,7 @@ public class DAOElement {
             z2 = false;
         }
         element.setHasPhoto(z2);
-        element.setWeight(cursor.getInt(12));
+//        element.setWeight(cursor.getInt(12));
         return element;
     }
 }
