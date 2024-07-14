@@ -1,4 +1,4 @@
-package fpt.huyenptnhe160769.cosplanner.dialog.edit_cosplay;
+package fpt.huyenptnhe160769.cosplanner.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +20,6 @@ import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.R;
 import fpt.huyenptnhe160769.cosplanner.models.Cos;
-import fpt.huyenptnhe160769.cosplanner.models.Element;
 
 public abstract class EditCosplayDialog extends DialogFragment {
     Context context;
@@ -42,9 +41,9 @@ public abstract class EditCosplayDialog extends DialogFragment {
         EditText name = view.findViewById(R.id.edit_cosplay_name);
         EditText sub = view.findViewById(R.id.edit_cosplay_sub);
         EditText note = view.findViewById(R.id.edit_cosplay_note);
-        EditText image = view.findViewById(R.id.edit_cosplay_imageURL);
+        EditText image = view.findViewById(R.id.edit_cosplay_pictureURL);
         DatePicker est = view.findViewById(R.id.edit_cosplay_est);
-        Button addImage = view.findViewById(R.id.edit_cosplay_addImage);
+        Button addImage = view.findViewById(R.id.edit_cosplay_addPicture);
 
         name.setText(cos.getName());
         sub.setText(cos.getSeries());
@@ -58,7 +57,7 @@ public abstract class EditCosplayDialog extends DialogFragment {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText image = view.findViewById(R.id.edit_cosplay_imageURL);
+                EditText image = view.findViewById(R.id.edit_cosplay_pictureURL);
 
                 AddImage(image.getText().toString());
             }
@@ -70,7 +69,7 @@ public abstract class EditCosplayDialog extends DialogFragment {
                         EditText name = view.findViewById(R.id.edit_cosplay_name);
                         EditText sub = view.findViewById(R.id.edit_cosplay_sub);
                         EditText note = view.findViewById(R.id.edit_cosplay_note);
-                        EditText image = view.findViewById(R.id.edit_cosplay_imageURL);
+                        EditText image = view.findViewById(R.id.edit_cosplay_pictureURL);
                         DatePicker est = view.findViewById(R.id.edit_cosplay_est);
 
                         AddImage(image.getText().toString());
@@ -88,5 +87,5 @@ public abstract class EditCosplayDialog extends DialogFragment {
     }
 
     public abstract void EditCosplay(String name, String sub, String note, String image, Date est);
-    public abstract void AddImage(String image);
+    public abstract void AddImage(String imageURL);
 }

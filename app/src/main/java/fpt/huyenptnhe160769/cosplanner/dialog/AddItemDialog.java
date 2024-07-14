@@ -1,4 +1,4 @@
-package fpt.huyenptnhe160769.cosplanner.dialog.add_item;
+package fpt.huyenptnhe160769.cosplanner.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

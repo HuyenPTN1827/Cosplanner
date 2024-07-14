@@ -13,6 +13,7 @@ import java.util.Currency;
 import java.util.List;
 
 import fpt.huyenptnhe160769.cosplanner.R;
+import fpt.huyenptnhe160769.cosplanner.dialog.EditItemDialog;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
@@ -39,6 +40,32 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
         Element item = items.get(position);
 
         holder.name.setText(item.getName());
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditItemDialog editItemDialog = new EditItemDialog(item, context) {
+                    @Override
+                    public void EditItem(String name, String price, boolean done, boolean priority) {
+
+                    }
+
+                    @Override
+                    public void DeleteElement(long id) {
+
+                    }
+
+                    @Override
+                    public void AddPicture(String url) {
+
+                    }
+
+                    @Override
+                    public void RemovePicture(String url) {
+
+                    }
+                };
+            }
+        });
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setCurrency(Currency.getInstance("VND"));

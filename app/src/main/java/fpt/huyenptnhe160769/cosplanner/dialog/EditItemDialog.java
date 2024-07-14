@@ -1,4 +1,4 @@
-package fpt.huyenptnhe160769.cosplanner.dialog.edit_item;
+package fpt.huyenptnhe160769.cosplanner.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-
-import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.R;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
@@ -41,6 +39,7 @@ public abstract class EditItemDialog extends DialogFragment {
         EditText price = view.findViewById(R.id.edit_item_price);
         CheckBox done = view.findViewById(R.id.edit_item_done);
         CheckBox priority = view.findViewById(R.id.edit_item_priority);
+        EditText pictureURL = view.findViewById(R.id.edit_cosplay_pictureURL);
         ImageView addPicture = view.findViewById(R.id.edit_item_addPicture);
         ImageView removePicture = view.findViewById(R.id.edit_item_removePicture);
         ImageView picture = view.findViewById(R.id.edit_item_picture);
@@ -52,13 +51,15 @@ public abstract class EditItemDialog extends DialogFragment {
         addPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                AddPicture(pictureURL.getText().toString());
+                pictureURL.setText("");
             }
         });
         removePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (pictureURL.getText().length() == 0) loadPicture();
+                else RemovePicture(pictureURL.getText().toString());
             }
         });
 
@@ -91,6 +92,11 @@ public abstract class EditItemDialog extends DialogFragment {
         return builder.create();
     }
 
+    private void loadPicture() {
+    }
+
     public abstract void EditItem(String name, String price, boolean done, boolean priority);
     public abstract void DeleteElement(long id);
+    public abstract void AddPicture(String url);
+    public abstract void RemovePicture(String url);
 }

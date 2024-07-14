@@ -15,8 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import fpt.huyenptnhe160769.cosplanner.dialog.AddItemDialog;
+import fpt.huyenptnhe160769.cosplanner.dialog.EditCosplayDialog;
+import fpt.huyenptnhe160769.cosplanner.dialog.EditItemDialog;
 import fpt.huyenptnhe160769.cosplanner.models.Cos;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
 import fpt.huyenptnhe160769.cosplanner.recycler_view.details_item.ItemsAdapter;
@@ -70,13 +74,30 @@ public class DetailsActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AddItemDialog addItemDialog = new AddItemDialog() {
+                    @Override
+                    public void AddNewItem(String name, String price, boolean priority) {
 
+                    }
+                };
+                addItemDialog.show(getSupportFragmentManager(), "AddItemDialog");
             }
         });
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditCosplayDialog editCosplayDialog = new EditCosplayDialog(cos, DetailsActivity.this) {
+                    @Override
+                    public void EditCosplay(String name, String sub, String note, String image, Date est) {
 
+                    }
+
+                    @Override
+                    public void AddImage(String imageURL) {
+
+                    }
+                };
+                editCosplayDialog.show(getSupportFragmentManager(), "EditCosplayDialog");
             }
         });
         finish.setOnClickListener(new View.OnClickListener() {
