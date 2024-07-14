@@ -8,20 +8,20 @@ public class Element {
     private String name;
     private String notes;
     private int order;
-    private int percent;
+//    private int percent;
     private boolean priority;
     private int timeHH;
     private int timeMM;
-    private int type;
-    private int weight;
+//    private int type;
+//    private int weight;
 
     public Element() {
         this.id = 0;
         this.fkCos = 0;
-        this.type = 0;
-        this.weight = 50;
+//        this.type = 0;
+//        this.weight = 50;
         this.name = "";
-        this.percent = 0;
+//        this.percent = 0;
         this.cost = 0.0d;
         this.timeHH = 0;
         this.timeMM = 0;
@@ -31,13 +31,13 @@ public class Element {
         this.hasPhoto = false;
     }
 
-    public Element(long id2, long fkCos2, int type2, int weight2, String name2, int percent2, double cost2, int timeHH2, int timeMM2, int order2, String notes2, boolean priority2, boolean hasPhoto2) {
+    public Element(long id2, long fkCos2, String name2, double cost2, int timeHH2, int timeMM2, int order2, String notes2, boolean priority2, boolean hasPhoto2) {
         this.id = id2;
         this.fkCos = fkCos2;
-        this.type = type2;
-        this.weight = weight2;
+//        this.type = type2;
+//        this.weight = weight2;
         this.name = name2;
-        this.percent = percent2;
+//        this.percent = percent2;
         this.cost = cost2;
         this.timeHH = timeHH2;
         this.timeMM = timeMM2;
@@ -55,21 +55,21 @@ public class Element {
         this.fkCos = fkCos2;
     }
 
-    public void setType(int type2) {
-        this.type = type2;
-    }
-
-    public void setWeight(int weight2) {
-        this.weight = weight2;
-    }
+//    public void setType(int type2) {
+//        this.type = type2;
+//    }
+//
+//    public void setWeight(int weight2) {
+//        this.weight = weight2;
+//    }
 
     public void setName(String name2) {
         this.name = name2;
     }
 
-    public void setPercent(int percent2) {
-        this.percent = percent2;
-    }
+//    public void setPercent(int percent2) {
+//        this.percent = percent2;
+//    }
 
     public void setCost(double cost2) {
         this.cost = cost2;
@@ -107,21 +107,21 @@ public class Element {
         return this.fkCos;
     }
 
-    public int getType() {
-        return this.type;
-    }
-
-    public int getWeight() {
-        return this.weight;
-    }
+//    public int getType() {
+//        return this.type;
+//    }
+//
+//    public int getWeight() {
+//        return this.weight;
+//    }
 
     public String getName() {
         return this.name;
     }
 
-    public int getPercent() {
-        return this.percent;
-    }
+//    public int getPercent() {
+//        return this.percent;
+//    }
 
     public double getCost() {
         return this.cost;
