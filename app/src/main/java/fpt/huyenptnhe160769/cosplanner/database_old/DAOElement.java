@@ -1,4 +1,4 @@
-package fpt.huyenptnhe160769.cosplanner.database;
+package fpt.huyenptnhe160769.cosplanner.database_old;
 
 import android.app.backup.BackupManager;
 import android.content.ContentValues;
@@ -10,8 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-import fpt.huyenptnhe160769.cosplanner.models.Element;
+import fpt.huyenptnhe160769.cosplanner.models_old.Element;
 
+@Deprecated
 public class DAOElement {
     private String[] allColumns = {"_id", "FK_COS", "TYPE", "NAME", CosplannerSQLiteHelper.CP_ELEMENT_PERCENT, CosplannerSQLiteHelper.CP_ELEMENT_COST, CosplannerSQLiteHelper.CP_ELEMENT_TIME_HH, CosplannerSQLiteHelper.CP_ELEMENT_TIME_MM, "DISP_ORDER", "NOTES", CosplannerSQLiteHelper.CP_ELEMENT_PRIORITY, CosplannerSQLiteHelper.CP_ELEMENT_HAS_PHOTO, CosplannerSQLiteHelper.CP_ELEMENT_WEIGHT};
     private SQLiteDatabase database;

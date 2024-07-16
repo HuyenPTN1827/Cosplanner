@@ -1,4 +1,4 @@
-package fpt.huyenptnhe160769.cosplanner.database;
+package fpt.huyenptnhe160769.cosplanner.database_old;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,14 +6,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import fpt.huyenptnhe160769.cosplanner.models.CPImage;
+import fpt.huyenptnhe160769.cosplanner.models_old.CPImage;
 
-public class DAOPhoto {
+@Deprecated
+public class DAOProgress {
     private String[] allColumns = {"_id", "FK_COS", "URL_THUMB", "URL_IMAGE", "DISP_ORDER", "NOTES"};
     private SQLiteDatabase database;
     private CosplannerSQLiteHelper dbHelper;
 
-    public DAOPhoto(Context context) {
+    public DAOProgress(Context context) {
         this.dbHelper = new CosplannerSQLiteHelper(context);
     }
 
@@ -25,7 +26,7 @@ public class DAOPhoto {
         this.dbHelper.close();
     }
 
-    public void createPhoto(CPImage i) {
+    public void createProgress(CPImage i) {
         ContentValues values = new ContentValues();
         values.put("FK_COS", Long.valueOf(i.getFkCos()));
         values.put("URL_THUMB", i.getUrlThumb());
@@ -36,7 +37,7 @@ public class DAOPhoto {
         } else {
             values.put("NOTES", i.getNotes());
         }
-        this.database.insert(CosplannerSQLiteHelper.TABLE_CP_PHOTO, (String) null, values);
+        this.database.insert(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, (String) null, values);
     }
 
     public void updateNotes(long id, String n) {
@@ -46,29 +47,29 @@ public class DAOPhoto {
         } else {
             values.put("NOTES", n);
         }
-        this.database.update(CosplannerSQLiteHelper.TABLE_CP_PHOTO, values, "_id = " + id, (String[]) null);
+        this.database.update(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, values, "_id = " + id, (String[]) null);
     }
 
-    public void deletePhoto(long id) {
-        this.database.delete(CosplannerSQLiteHelper.TABLE_CP_PHOTO, "_id = " + id, (String[]) null);
+    public void deleteProgress(long id) {
+        this.database.delete(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, "_id = " + id, (String[]) null);
     }
 
-    public void deleteAllPhotos(long fkCos) {
-        this.database.delete(CosplannerSQLiteHelper.TABLE_CP_PHOTO, "FK_COS = " + fkCos, (String[]) null);
+    public void deleteAllProgress(long fkCos) {
+        this.database.delete(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, "FK_COS = " + fkCos, (String[]) null);
     }
 
-    public CPImage[] getAllPhotos(long fkCos) {
-        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PHOTO, this.allColumns, "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
-        CPImage[] arrayPhotos = new CPImage[cursor.getCount()];
+    public CPImage[] getAllProgress(long fkCos) {
+        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PROGRESS, this.allColumns, "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
+        CPImage[] arrayProgress = new CPImage[cursor.getCount()];
         int idx = 0;
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            arrayPhotos[idx] = cursorToImage(cursor);
+            arrayProgress[idx] = cursorToImage(cursor);
             idx++;
             cursor.moveToNext();
         }
         cursor.close();
-        return arrayPhotos;
+        return arrayProgress;
     }
 
     private CPImage cursorToImage(Cursor cursor) {

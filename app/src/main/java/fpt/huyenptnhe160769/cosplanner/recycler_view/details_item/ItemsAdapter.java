@@ -1,6 +1,7 @@
 package fpt.huyenptnhe160769.cosplanner.recycler_view.details_item;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,19 @@ import java.util.Currency;
 import java.util.List;
 
 import fpt.huyenptnhe160769.cosplanner.R;
+import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.dialog.EditItemDialog;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
     List<Element> items;
     Context context;
+    AppDatabase db;
 
-    public ItemsAdapter (List<Element> items, Context context){
+    public ItemsAdapter (List<Element> items, Context context, AppDatabase db){
         this.items = items;
         this.context = context;
+        this.db = db;
     }
 
     @NonNull
@@ -39,29 +43,61 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
         Element item = items.get(position);
 
-        holder.name.setText(item.getName());
+//        if (db.elementDao().findById(item.eid) == null){
+//            Log.e(this.getClass().getName(), "Cannot find item in database");
+//            return;
+//        }
+
+        holder.name.setText(item.name);
         holder.name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditItemDialog editItemDialog = new EditItemDialog(item, context) {
                     @Override
                     public void EditItem(String name, String price, boolean done, boolean priority) {
+                        Element e = db.elementDao().findById(item.eid);
+                        if(e == null) {
+                            Log.e(this.getClass().getName(), "Cannot find item in database");
+                            return;
+                        }
+                        e.name = name;
+                        e.cost = Double.valueOf(price);
+                        e.isComplete = done;
+                        e.isPriority = priority;
 
+                        db.elementDao().update(e);
                     }
 
                     @Override
-                    public void DeleteElement(long id) {
-
+                    public void DeleteElement() {
+                        Element e = db.elementDao().findById(item.eid);
+                        if(e == null) {
+                            Log.e(this.getClass().getName(), "Cannot find item in database");
+                            return;
+                        }
+                        db.elementDao().delete(e);
                     }
 
                     @Override
                     public void AddPicture(String url) {
-
+                        Element e = db.elementDao().findById(item.eid);
+                        if(e == null) {
+                            Log.e(this.getClass().getName(), "Cannot find item in database");
+                            return;
+                        }
+                        e.pictureURL = url;
+                        db.elementDao().update(e);
                     }
 
                     @Override
-                    public void RemovePicture(String url) {
-
+                    public void RemovePicture() {
+                        Element e = db.elementDao().findById(item.eid);
+                        if(e == null) {
+                            Log.e(this.getClass().getName(), "Cannot find item in database");
+                            return;
+                        }
+                        e.pictureURL = "";
+                        db.elementDao().update(e);
                     }
                 };
             }
@@ -69,15 +105,18 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setCurrency(Currency.getInstance("VND"));
-        holder.price.setText(String.valueOf(format.format(item.getCost())));
+        holder.price.setText(String.valueOf(format.format(item.cost)));
 
-        if (item.isPriority()) holder.isComplete.setImageResource(R.drawable.ic_ready);
+        if (item.isComplete) holder.isComplete.setImageResource(R.drawable.ic_ready);
         else holder.isComplete.setImageResource(R.drawable.ic_not_ready);
 
-        if (item.hasPhoto()) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
+        if (item.isPriority) holder.holdr.setBackgroundColor(context.getColor(R.color.row));
+        else holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+
+        if (item.pictureURL != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
         else holder.isComplete.setImageResource(R.drawable.ic_row_picture_off);
 
-        if (item.getNotes() != null) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
+        if (item.note != null) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
         else holder.isComplete.setImageResource(R.drawable.ic_row_notes_off);
     }
 

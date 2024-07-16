@@ -1,5 +1,6 @@
-package fpt.huyenptnhe160769.cosplanner.models;
+package fpt.huyenptnhe160769.cosplanner.models_old;
 
+@Deprecated
 public class CPImage {
     private long fkCos;
     private long id;

@@ -1,9 +1,10 @@
-package fpt.huyenptnhe160769.cosplanner.database;
+package fpt.huyenptnhe160769.cosplanner.database_old;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+@Deprecated
 public class CosplannerSQLiteHelper extends SQLiteOpenHelper {
     public static final String CP_COS_BUDGET = "BUDGET";
     public static final String CP_COS_COMPLETE = "COMPLETE";

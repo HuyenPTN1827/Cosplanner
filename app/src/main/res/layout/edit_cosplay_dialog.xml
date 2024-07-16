@@ -37,7 +37,6 @@
         android:layout_margin="10dp"
         android:orientation="horizontal"
         android:weightSum="5">
-
         <ImageView
             android:id="@+id/edit_cosplay_picture"
             android:layout_width="0dp"
@@ -48,29 +47,21 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:weightSum="4"
-            android:orientation="vertical">
-            <EditText
-                android:id="@+id/edit_cosplay_pictureURL"
-                android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:inputType="text|textMultiLine"
-                android:hint="Picture URL"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:id="@+id/edit_cosplay_addPicture"
                 android:layout_weight="1"
-                android:weightSum="2"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:text="Thêm ảnh"
-                    android:id="@+id/edit_cosplay_addPicture"/>
-            </LinearLayout>
+                android:src="@drawable/ic_element_add"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/edit_cosplay_removePicture"
+                android:layout_weight="1"
+                android:src="@drawable/ic_element_remove"/>
         </LinearLayout>
     </LinearLayout>
     <DatePicker
