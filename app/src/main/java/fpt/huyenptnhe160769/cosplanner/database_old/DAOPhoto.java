@@ -59,7 +59,8 @@ public class DAOPhoto {
     }
 
     public CPImage[] getAllPhotos(long fkCos) {
-        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PHOTO, this.allColumns, "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
+        Cursor cursor = this.database.query(CosplannerSQLiteHelper.TABLE_CP_PHOTO, this.allColumns,
+                "FK_COS = " + fkCos, (String[]) null, (String) null, (String) null, (String) null);
         CPImage[] arrayPhotos = new CPImage[cursor.getCount()];
         int idx = 0;
         cursor.moveToFirst();
