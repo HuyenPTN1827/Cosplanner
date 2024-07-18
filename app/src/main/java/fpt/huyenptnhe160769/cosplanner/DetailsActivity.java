@@ -67,7 +67,9 @@ public class DetailsActivity extends AppCompatActivity {
         LoadDB();
 
         //Load cosplay here
-        cos = new Cos();
+//        cos = new Cos();
+        int cosId = getIntent().getIntExtra("cosId", -1);
+        cos = db.cosDao().findById(cosId);
 
         //Buttons and Images
         cosplayName = findViewById(R.id.txt_name);
@@ -83,7 +85,10 @@ public class DetailsActivity extends AppCompatActivity {
         rv = findViewById(R.id.rec_BoughtItem);
         icon = findViewById(R.id.img_icon);
 
-        updateViews();
+        if(cos != null) {
+            updateViews();
+        }
+
 //        picture.
         add.setOnClickListener(new View.OnClickListener() {
             @Override
