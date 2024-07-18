@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sửa dự án"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:layout_margin="15dp"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+    <EditText
+        android:id="@+id/edit_cosplay_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Tên nhân vật"/>
+    <EditText
+        android:id="@+id/edit_cosplay_sub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Tên series"/>
+    <EditText
+        android:id="@+id/edit_cosplay_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="Note"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:weightSum="5">
+        <ImageView
+            android:id="@+id/edit_cosplay_picture"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:layout_weight="3"
+            android:src="@drawable/empty_character"
+            app:layout_constraintDimensionRatio="1:1" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="2">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/edit_cosplay_addPicture"
+                android:layout_weight="1"
+                android:src="@drawable/ic_element_add"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/edit_cosplay_removePicture"
+                android:layout_weight="1"
+                android:src="@drawable/ic_element_remove"/>
+        </LinearLayout>
+    </LinearLayout>
+    <DatePicker
+        android:id="@+id/edit_cosplay_est"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"/>
+</LinearLayout>
