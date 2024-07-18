@@ -26,15 +26,9 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:backgroundTint="#00FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ic_menu" />
-
-        <ImageButton
-            android:id="@+id/CosList_ButtonAddCos"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#00FFFFFF"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_add_cos" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -46,35 +40,79 @@
             android:maxLength="30"
             android:textColor="@color/white"
             android:background="@color/transparent"
-            android:textColorHint="#59FFFFFF"
+            android:textColorHint="@color/white"
             android:inputType="textCapSentences"
             android:imeOptions="actionSearch"
             android:hint="Tìm kiếm" />
 
-        <Spinner
-            android:layout_gravity="center_vertical"
-            android:id="@+id/CosList_SpinnerFilterStatus"
-            android:background="@android:color/transparent"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/CosList_ButtonAddCos"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:prompt="@string/filter_status_header"/>
+            android:backgroundTint="#00FFFFFF"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_add_cos" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:id="@+id/CosList_FilterBar"
+        android:focusableInTouchMode="true"
+        android:descendantFocusability="beforeDescendants"
+        android:background="@color/action_bar"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="2dp">
 
         <Spinner
-            android:layout_gravity="center_vertical"
+            android:id="@+id/CosList_SpinnerFilterStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:background="@android:color/transparent"
+            android:entries="@array/filter_status_values"
+            android:fadeScrollbars="false"
+            android:prompt="@string/filter_status_header"
+            android:layout_weight="1"
+            android:layout_margin="2dp"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
+
+        <Spinner
             android:id="@+id/CosList_SpinnerSortType"
             android:background="@android:color/transparent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/filter_status_header"/>
+            android:textAlignment="center"
+            android:prompt="@string/sort_type_header"
+            android:entries="@array/sort_type_values"
+            android:layout_margin="2dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="?android:attr/listDivider" />
 
         <Spinner
-            android:layout_gravity="center_vertical"
+            android:textAlignment="center"
             android:id="@+id/CosList_SpinnerOrderType"
             android:background="@android:color/transparent"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/filter_status_header"/>
-
+            android:prompt="@string/order_type_header"
+            android:entries="@array/order_type_values"
+            android:layout_margin="2dp"
+            android:singleLine="true"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <TextView

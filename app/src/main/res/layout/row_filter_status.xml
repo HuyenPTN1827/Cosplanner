@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/FilterStatusRow"
+    android:background="@color/action_bar"
+    android:padding="4dp">
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/FilterStatusImageView_AllCosplays"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_all_cosplays"
+        android:contentDescription="@string/con_desc_ic_all_cosplays"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/FilterStatusImageView_OnlyUncompleted"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_only_uncompleted"
+        android:contentDescription="@string/con_desc_ic_only_uncompleted"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/FilterStatusImageView_OnlyCompleted"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_only_completed"
+        android:contentDescription="@string/con_desc_ic_only_completed"/>
+
+    <TextView
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
+        android:id="@+id/FilterStatusTextView_FilterName"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="true"/>
+</LinearLayout>

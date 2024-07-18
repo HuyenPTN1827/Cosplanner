@@ -9,10 +9,11 @@
     <ImageView
         android:layout_gravity="center_vertical"
         android:id="@+id/CosListImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:src="@drawable/empty_character"
         android:contentDescription="@string/con_desc_image_cos"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"/>
 
     <LinearLayout
