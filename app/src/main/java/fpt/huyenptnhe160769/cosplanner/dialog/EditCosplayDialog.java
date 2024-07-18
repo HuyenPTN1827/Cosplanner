@@ -201,7 +201,6 @@ public class EditCosplayDialog extends ListenDialogFragment {
     public void EditCosplay(String name, String sub, String note, String imageURL, Date est){
         cos.name = name;
         cos.series = sub;
-        if (note.length() == 0) note = null;
         cos.note = note;
         cos.pictureURL = imageURL;
         cos.dueDate = DateConverter.toTimestamp(est);

@@ -206,22 +206,19 @@ public class EditItemDialog extends ListenDialogFragment {
     }
 
     public void EditItem(String name, String note, String price, boolean done, boolean priority){
-        Element e = db.elementDao().findById(item.eid);
-        if(e == null) {
-            Log.e(this.getClass().getName(), "Cannot find item in database");
-            return;
-        }
-        e.name = name;
-        if (note == "") {
-            note = null;
-        }
-        Toast.makeText(context, note == null? "true" : "false", Toast.LENGTH_SHORT).show();
-        e.note = note;
-        e.cost = Double.valueOf(price);
-        e.isComplete = done;
-        e.isPriority = priority;
+//        Element item = db.elementDao().findById(this.item.eid);
+//        if(item == null) {
+//            Log.e(this.getClass().getName(), "Cannot find item in database");
+//            return;
+//        }
+//        Toast.makeText(context, "'" +note+ "'",Toast.LENGTH_SHORT).show();
+        item.name = name;
+        item.note = note;
+        item.cost = Double.valueOf(price);
+        item.isComplete = done;
+        item.isPriority = priority;
 
-        db.elementDao().update(e);
+        db.elementDao().update(item);
     }
     public void DeleteElement(){
         Element e = db.elementDao().findById(item.eid);

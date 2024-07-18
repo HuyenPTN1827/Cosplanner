@@ -12,7 +12,7 @@ import fpt.huyenptnhe160769.cosplanner.R;
 
 public class ItemsViewHolder extends RecyclerView.ViewHolder {
     public TextView name, price;
-    public ImageView hasNote, hasPicture, isComplete;
+    public ImageView hasNote, hasPicture, isComplete, isPriority;
     public LinearLayout holdr;
 
     public ItemsViewHolder(@NonNull View itemView) {
@@ -24,5 +24,6 @@ public class ItemsViewHolder extends RecyclerView.ViewHolder {
         hasNote = itemView.findViewById(R.id.ic_rowNote);
         hasPicture = itemView.findViewById(R.id.ic_rowPicture);
         isComplete = itemView.findViewById(R.id.ic_status);
+        isPriority = itemView.findViewById(R.id.ic_is_priority);
     }
 }

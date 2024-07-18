@@ -63,16 +63,19 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
         if (item.isComplete) holder.isComplete.setImageResource(R.drawable.ic_ready);
         else holder.isComplete.setImageResource(R.drawable.ic_not_ready);
 
-        if (item.isPriority) holder.holdr.setBackgroundColor(context.getColor(R.color.row));
-        else holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+        if (item.isPriority) {
+            holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+            holder.isPriority.setImageResource(R.drawable.ic_menu_rate);
+        }
+        else {
+            holder.holdr.setBackgroundColor(context.getColor(R.color.row));
+            holder.isPriority.setImageDrawable(null);
+        }
 
         if (item.pictureURL != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
         else holder.hasPicture.setImageResource(R.drawable.ic_row_picture_off);
 
-        if (item.note != null) {
-            Toast.makeText(context, item.eid + ": " + item.note, Toast.LENGTH_SHORT).show();
-            holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
-        }
+        if (item.note != null && item.note.length() > 0) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
         else holder.hasNote.setImageResource(R.drawable.ic_row_notes_off);
 
         holder.isComplete.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +100,15 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
                 }
             }
         });
-
+        holder.isPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.isPriority = !item.isPriority;
+                db.elementDao().update(item);
+                items = db.elementDao().getByCosId(cosId);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
