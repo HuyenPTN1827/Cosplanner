@@ -34,7 +34,7 @@ public class CosplayNoteDialog extends DialogFragment {
         String incompleteNote = "";
         for (Element e :
                 elementList) {
-            if (e.note == null) continue;
+            if (e.note == null || e.note.length() == 0) continue;
             if (e.isComplete){
                 completeNote += "\n\t* " + e.note;
             }
@@ -44,8 +44,8 @@ public class CosplayNoteDialog extends DialogFragment {
         }
 
         msg += "Cosplay:\n\t* " + cos.note;
-        if (completeNote != "") msg += "\n\nComplete elements:" + completeNote;
-        if (incompleteNote != "") msg += "\n\nIncomplete elements:" + incompleteNote;
+        if (completeNote != "") msg += "\n\nHoàn thành:" + completeNote;
+        if (incompleteNote != "") msg += "\n\nChưa hoàn thành:" + incompleteNote;
         builder
                 .setMessage(msg)
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {

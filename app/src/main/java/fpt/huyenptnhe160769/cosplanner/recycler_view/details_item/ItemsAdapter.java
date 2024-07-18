@@ -20,6 +20,7 @@ import fpt.huyenptnhe160769.cosplanner.R;
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.dialog.EditItemDialog;
 import fpt.huyenptnhe160769.cosplanner.models.Element;
+import fpt.huyenptnhe160769.cosplanner.services.ImageSaver;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
     List<Element> items;
@@ -72,7 +73,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
             holder.isPriority.setImageDrawable(null);
         }
 
-        if (item.pictureURL != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
+        ImageSaver saver = new ImageSaver(context);
+        if (item.pictureURL != null && saver.loadImageFromStorage(item.pictureURL) != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
         else holder.hasPicture.setImageResource(R.drawable.ic_row_picture_off);
 
         if (item.note != null && item.note.length() > 0) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);

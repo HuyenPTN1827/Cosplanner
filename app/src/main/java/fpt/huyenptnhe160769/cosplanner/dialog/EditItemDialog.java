@@ -96,7 +96,11 @@ public class EditItemDialog extends ListenDialogFragment {
         removePicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RemovePicture();
+                if (item.pictureURL != null && saver.loadImageFromStorage(item.pictureURL) != null){
+                    picture.setImageResource(R.drawable.empty_character);
+                    saver.removeFromInternalStorage(item.pictureURL);
+                    RemoveImage();
+                }
             }
         });
 
@@ -110,8 +114,12 @@ public class EditItemDialog extends ListenDialogFragment {
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        String imageURL = saver.saveToInternalStorage(saver.convertToBitmap(picture), ImageSaver.IMAGE_FOR.ELEMENT, item.eid);
+
+                        item.pictureURL = imageURL;
+                        db.elementDao().update(item);
+                        initialPicture = saver.convertToBitmap(picture);
                         EditItem(name.getText().toString(), note.getText().toString(), price.getText().toString(), done.isChecked(), priority.isChecked());
-                        EditItemDialog.this.getDialog().dismiss();
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -192,8 +200,8 @@ public class EditItemDialog extends ListenDialogFragment {
                 db.elementDao().update(item);
             }
             else {
-                String url = saver.saveToInternalStorage(initialPicture, ImageSaver.IMAGE_FOR.COSPLAY, item.eid);
-                AddPicture(url, ImageSaver.IMAGE_FOR.COSPLAY, item.eid);
+                String url = saver.saveToInternalStorage(initialPicture, ImageSaver.IMAGE_FOR.ELEMENT, item.eid);
+                AddPicture(url, ImageSaver.IMAGE_FOR.ELEMENT, item.eid);
             }
         }
 //        Toast.makeText(context, initialPicture == null ? "Null" : "Not null", Toast.LENGTH_SHORT).show();
@@ -252,13 +260,8 @@ public class EditItemDialog extends ListenDialogFragment {
                 throw new IllegalStateException("Unexpected value: " + ifor);
         }
     }
-    public void RemovePicture(){
-        Element e = db.elementDao().findById(item.eid);
-        if(e == null) {
-            Log.e(this.getClass().getName(), "Cannot find item in database");
-            return;
-        }
-        e.pictureURL = "";
-        db.elementDao().update(e);
+    public void RemoveImage(){
+        item.pictureURL = null;
+        db.elementDao().update(item);
     }
 }

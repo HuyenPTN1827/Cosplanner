@@ -75,13 +75,11 @@ public class EditCosplayDialog extends ListenDialogFragment {
         name.setText(cos.name);
         sub.setText(cos.series);
         note.setText(cos.note);
-        est.init(DateConverter.toDate(cos.dueDate).getYear(), DateConverter.toDate(cos.dueDate).getMonth(), DateConverter.toDate(cos.dueDate).getDate(), new DatePicker.OnDateChangedListener() {
-            @Override
-            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-            }
-        });
+        Date setEstDate = DateConverter.toDate(cos.dueDate);
         est.setMinDate(cos.initDate);
+//        Toast.makeText(context, String.valueOf(setEstDate.getYear()), Toast.LENGTH_SHORT).show();
+
+        est.updateDate(setEstDate.getYear() + 1900, setEstDate.getMonth() - 1, setEstDate.getDate());
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +103,10 @@ public class EditCosplayDialog extends ListenDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String imageURL = saver.saveToInternalStorage(saver.convertToBitmap(picture), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
 
-                        AddImage(imageURL);
+                        cos.pictureURL = imageURL;
+                        db.cosDao().update(cos);
                         initialPicture = saver.convertToBitmap(picture);
-                        EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), imageURL, new Date(est.getYear(), est.getMonth() + 1, est.getDayOfMonth()));
+                        EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), new Date(est.getYear(), est.getMonth() + 1, est.getDayOfMonth()));
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -198,18 +197,14 @@ public class EditCosplayDialog extends ListenDialogFragment {
         AddPicture(url, ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
     }
 
-    public void EditCosplay(String name, String sub, String note, String imageURL, Date est){
+    public void EditCosplay(String name, String sub, String note, Date est){
         cos.name = name;
         cos.series = sub;
         cos.note = note;
-        cos.pictureURL = imageURL;
         cos.dueDate = DateConverter.toTimestamp(est);
         db.cosDao().update(cos);
     }
-    public void AddImage(String imageURL){
-        cos.pictureURL = imageURL;
-        db.cosDao().update(cos);
-    }
+
     public void AddPicture(String url, ImageSaver.IMAGE_FOR ifor, int id){
         switch (ifor) {
             case COSPLAY:
