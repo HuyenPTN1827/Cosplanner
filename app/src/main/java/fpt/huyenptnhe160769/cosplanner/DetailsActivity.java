@@ -160,6 +160,8 @@ public class DetailsActivity extends AppCompatActivity implements DialogFinishLi
     }
 
     private void updateViews() {
+        if (db.cosDao().findById(cos.cid) == null) finish();
+        else cos = db.cosDao().findById(cos.cid);
 //        Toast.makeText(DetailsActivity.this, "Update data", Toast.LENGTH_SHORT).show();
         if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null){
             picture.setImageBitmap(saver.loadImageFromStorage(cos.pictureURL));

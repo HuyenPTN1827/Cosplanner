@@ -98,6 +98,12 @@ public class EditCosplayDialog extends ListenDialogFragment {
         });
 
         builder.setView(view)
+                .setNeutralButton("Xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        db.cosDao().delete(cos);
+                    }
+                })
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
