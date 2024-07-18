@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:id="@+id/SortTypeRow"
+    android:background="@color/action_bar"
+    android:padding="4dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_Name"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_char_name"
+        android:contentDescription="@string/con_desc_ic_by_name"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_Series"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_series_name"
+        android:contentDescription="@string/con_desc_ic_by_series"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_InitDate"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_init_date"
+        android:contentDescription="@string/con_desc_ic_by_init_date"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_DueDate"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_due_date"
+        android:contentDescription="@string/con_desc_ic_by_due_date"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_Budget"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_budget"
+        android:contentDescription="@string/con_desc_ic_by_budget"/>
+
+    <ImageView
+        android:layout_gravity="center_vertical"
+        android:id="@+id/SortTypeImageView_TotalCost"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_by_total_cost"
+        android:contentDescription="@string/con_desc_ic_by_total_cost"/>
+
+    <TextView
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:textColor="#ffffff"
+        android:gravity="center_vertical"
+        android:id="@+id/SortTypeTextView_TypeName"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="true"/>
+</LinearLayout>

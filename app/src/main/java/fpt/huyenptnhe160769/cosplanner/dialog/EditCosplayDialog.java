@@ -23,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.DetailsActivity;
+import fpt.huyenptnhe160769.cosplanner.MainActivity;
 import fpt.huyenptnhe160769.cosplanner.R;
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.models.Cos;
@@ -102,6 +103,8 @@ public class EditCosplayDialog extends ListenDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         db.cosDao().delete(cos);
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
                     }
                 })
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {

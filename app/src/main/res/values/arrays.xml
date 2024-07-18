@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="filter_status_values">
+        <item>Tất cả Project Cosplay</item>
+        <item>Các Project đang chuẩn bị</item>
+        <item>Các Project đã hoàn thành</item>
+    </array>
+    <array name="sort_type_values">
+        <item>Tên nhân vật</item>
+        <item>Tên series</item>
+        <item>Ngày bắt đầu</item>
+        <item>Ngày kết thúc</item>
+        <item>Ngân quỹ</item>
+        <item>Tổng tiền</item>
+    </array>
+    <array name="order_type_values">
+        <item>Nhỏ đến Lớn</item>
+        <item>Lớn đến Nhỏ</item>
+    </array>
+</resources>

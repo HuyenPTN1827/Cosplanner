@@ -3,6 +3,7 @@ package fpt.huyenptnhe160769.cosplanner;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
+import java.util.Collections;
 import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView emptyTextView;
     private LinearLayout rowInitDate, rowDueDate, rowBudget;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+    private Spinner spinnerFilterStatus, spinnerSortType, spinnerOrderType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +70,56 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.CosList_ListView);
         searchEditText = findViewById(R.id.CosList_EditTextSearch);
         emptyTextView = findViewById(R.id.CosList_TextViewEmpty);
+        spinnerFilterStatus = findViewById(R.id.CosList_SpinnerFilterStatus);
+        spinnerSortType = findViewById(R.id.CosList_SpinnerSortType);
+        spinnerOrderType = findViewById(R.id.CosList_SpinnerOrderType);
 
         cosList = db.cosDao().getAllCos();
         loadCosList();
 
+        spinnerFilterStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                filterCosList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+        });
+
+        spinnerSortType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                sortCosList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+        });
+
+        spinnerOrderType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+                sortCosList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+            }
+        });
+
+        // Cập nhật danh sách khi khởi động ứng dụng
+        updateCosList();
+
+        //Intent Cos Detail
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -80,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Add New Cos
         ImageButton btnAdd = findViewById(R.id.CosList_ButtonAddCos);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Search Cos by Name or Series
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,12 +158,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void filterCosList() {
+        String filterStatus = spinnerFilterStatus.getSelectedItem().toString();
+        if (filterStatus.equals("Tất cả Project Cosplay")) {
+            cosList = db.cosDao().getAllCos();
+        } else if (filterStatus.equals("Các Project đang chuẩn bị")) {
+            cosList = db.cosDao().getCompletedCos(false);
+        } else if (filterStatus.equals("Các Project đã hoàn thành")) {
+            cosList = db.cosDao().getCompletedCos(true);
+        }
+        sortCosList(); // Sắp xếp lại danh sách sau khi lọc
+    }
+
+    private void sortCosList() {
+        String sortType = spinnerSortType.getSelectedItem().toString();
+        String orderType = spinnerOrderType.getSelectedItem().toString();
+
+        if (sortType.equals("Tên nhân vật")) {
+            cosList = db.cosDao().orderByName();
+        } else if (sortType.equals("Manga/Anime-Comic/Games?")) {
+            cosList = db.cosDao().orderBySeries();
+        } else if (sortType.equals("Ngày bắt đầu")) {
+            cosList = db.cosDao().orderByInitDate();
+        } else if (sortType.equals("Ngày kết thúc")) {
+            cosList = db.cosDao().orderByDueDate();
+        } else if (sortType.equals("Ngân quỹ")) {
+            cosList = db.cosDao().orderByBudget();
+        }
+
+        // Đảo ngược danh sách nếu thứ tự là "Nhỏ đến Lớn"
+        if (orderType.equals("Lớn đến Nhỏ")) {
+            Collections.reverse(cosList);
+        }
+
+        loadCosList();
+    }
+
+    private void updateCosList() {
+        filterCosList();
+        loadCosList();
+    }
+
     private void searchCos(String string) {
         cosList = db.cosDao().searchCos("%" + string + "%");
         loadCosList();
         updateEmptyView();
     }
 
+    //Cos list is null
     private void updateEmptyView() {
         if (cosList.isEmpty()) {
             emptyTextView.setVisibility(View.VISIBLE);
@@ -203,13 +297,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Save new Cos to Database
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = characterEdt.getText().toString();
                 String series = seriesEdt.getText().toString();
-                long initDate = 0;
-                long dueDate = 0;
+                long initDate = DateConverter.toTimestamp(new Date());
+                long dueDate = DateConverter.toTimestamp(new Date());
                 double budget = 0.0;
 
                 if (name.isEmpty() || series.isEmpty()) {
@@ -226,13 +321,13 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     initDate = dateFormat.parse(initDateEdt.getText().toString()).getTime();
                 } catch (Exception e) {
-                    initDate = 0;
+                    initDate = DateConverter.toTimestamp(new Date());
                 }
 
                 try {
                     dueDate = dateFormat.parse(dueDateEdt.getText().toString()).getTime();
                 } catch (Exception e) {
-                    dueDate = 0;
+                    dueDate = DateConverter.toTimestamp(new Date());
                 }
 
                 Cos cos = new Cos();
