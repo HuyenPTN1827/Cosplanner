@@ -2,9 +2,11 @@ package fpt.huyenptnhe160769.cosplanner;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +55,16 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.CosList_ListView);
         
         loadCosList();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Cos selectedCos = cosList.get(position);
+                Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+                intent.putExtra("cosId", selectedCos.cid);
+                startActivity(intent);
+            }
+        });
 
         ImageButton btnAdd = findViewById(R.id.CosList_ButtonAddCos);
         btnAdd.setOnClickListener(new View.OnClickListener() {
