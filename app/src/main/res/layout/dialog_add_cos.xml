@@ -41,6 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cos_in_process"
+                    android:textColor="@color/white"
                     android:singleLine="true"
                     android:layout_weight="1"/>
 
@@ -50,6 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/cos_planned"
+                    android:textColor="@color/white"
                     android:singleLine="true"
                     android:layout_weight="1"/>
             </RadioGroup>
@@ -212,22 +214,12 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:layout_below="@+id/Cos_RowEditTextBudget">
-<!--            <TextView android:textSize="12sp"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:gravity="center_horizontal"-->
-<!--                android:id="@+id/FragmentCos_ButtonDelete"-->
-<!--                android:background="@drawable/custom_selector"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/delete"-->
-<!--                android:drawableTop="@drawable/ic_delete"-->
-<!--                android:layout_weight="1"/>-->
 
-            <TextView
+            <Button
                 android:textSize="12sp"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                android:id="@+id/FragmentCos_ButtonCancel"
+                android:id="@+id/Cos_ButtonCancel"
                 android:background="@drawable/custom_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -235,10 +227,10 @@
                 android:drawableTop="@drawable/ic_cancel"
                 android:layout_weight="1"/>
 
-            <TextView android:textSize="12sp"
+            <Button android:textSize="12sp"
                 android:textColor="@color/white"
                 android:gravity="center_horizontal"
-                android:id="@+id/FragmentCos_ButtonSave"
+                android:id="@+id/Cos_ButtonSave"
                 android:background="@drawable/custom_selector"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
