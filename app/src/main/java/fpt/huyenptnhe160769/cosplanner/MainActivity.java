@@ -30,7 +30,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.room.Room;
 
+import java.text.NumberFormat;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
@@ -74,9 +76,6 @@ public class MainActivity extends AppCompatActivity {
         spinnerSortType = findViewById(R.id.CosList_SpinnerSortType);
         spinnerOrderType = findViewById(R.id.CosList_SpinnerOrderType);
 
-        cosList = db.cosDao().getAllCos();
-        loadCosList();
-
         spinnerFilterStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -116,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Cập nhật danh sách khi khởi động ứng dụng
+        // Update the list when starting the application
         updateCosList();
 
         //Intent Cos Detail
@@ -143,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -153,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -167,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (filterStatus.equals("Các Project đã hoàn thành")) {
             cosList = db.cosDao().getCompletedCos(true);
         }
-        sortCosList(); // Sắp xếp lại danh sách sau khi lọc
+        sortCosList();
     }
 
     private void sortCosList() {
@@ -186,11 +183,10 @@ public class MainActivity extends AppCompatActivity {
             cosList = db.cosDao().orderByBudget();
         }
 
-        // Đảo ngược danh sách nếu thứ tự là "Nhỏ đến Lớn"
+        // Đảo ngược danh sách nếu thứ tự là "Lớn đến Nhỏ"
         if (orderType.equals("Lớn đến Nhỏ")) {
             Collections.reverse(cosList);
         }
-
         loadCosList();
     }
 
@@ -228,8 +224,19 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView nameTextView = convertView.findViewById(R.id.CosListName);
                 TextView seriesTextView = convertView.findViewById(R.id.CosListSeries);
+                TextView datesInit = convertView.findViewById(R.id.CosListViewDatesInit);
+                TextView datesEnd = convertView.findViewById(R.id.CosListViewDatesEnd);
+                TextView budgetTextView = convertView.findViewById(R.id.CosListViewGeneralInfoText);
+
                 nameTextView.setText(cos.name);
                 seriesTextView.setText(cos.series);
+                datesInit.setText(dateFormat.format(DateConverter.toDate(cos.initDate)));
+                datesEnd.setText(dateFormat.format(DateConverter.toDate(cos.dueDate)));
+
+                NumberFormat format = NumberFormat.getCurrencyInstance();
+                format.setCurrency(Currency.getInstance("VND"));
+                format.setMaximumFractionDigits(0);
+                budgetTextView.setText(format.format(cos.budget));
 
                 return convertView;
             }

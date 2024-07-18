@@ -42,6 +42,48 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:singleLine="true"/>
+
+        <LinearLayout
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:id="@+id/CosListViewDates"
+            android:paddingRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/CosListViewDatesInit"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center_vertical"
+                android:padding="2dp"
+                android:singleLine="true"
+                android:textColor="#c0c0c0"
+                android:textSize="12sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:textColor="#c0c0c0"
+                android:gravity="center_vertical"
+                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:text=" - "
+                android:singleLine="true"/>
+
+            <TextView
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:textColor="#c0c0c0"
+                android:gravity="center_vertical"
+                android:id="@+id/CosListViewDatesEnd"
+                android:padding="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:singleLine="true"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -148,55 +190,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:id="@+id/CosListViewDates"
-        android:paddingRight="5dp"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textSize="12sp"
-            android:textStyle="normal"
-            android:textColor="#ffffff"
-            android:gravity="bottom|right|center_vertical|center_horizontal|center"
-            android:id="@+id/CosListViewDatesInit"
-            android:padding="2dp"
-            android:layout_width="80dp"
-            android:layout_height="25dp"
-            android:singleLine="true"/>
-
-        <TextView
-            android:textSize="12sp"
-            android:textStyle="normal"
-            android:textColor="#ffffff"
-            android:gravity="top|right|center_vertical|center_horizontal|center"
-            android:id="@+id/CosListViewDatesEnd"
-            android:padding="2dp"
-            android:layout_width="80dp"
-            android:layout_height="25dp"
-            android:singleLine="true"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
         android:id="@+id/CosListViewGeneralInfo"
         android:paddingRight="5dp"
-        android:visibility="gone"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <TextView
-            android:textSize="12sp"
+            android:textSize="13sp"
             android:textStyle="normal"
-            android:textColor="#ffffff"
+            android:textColor="#c0c0c0"
             android:gravity="right|center_vertical|center_horizontal|center"
             android:layout_gravity="center_vertical"
             android:id="@+id/CosListViewGeneralInfoText"
             android:padding="2dp"
             android:layout_width="70dp"
-            android:layout_height="50dp"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </LinearLayout>
