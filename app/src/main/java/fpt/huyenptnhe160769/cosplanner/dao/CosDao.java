@@ -14,7 +14,7 @@ import fpt.huyenptnhe160769.cosplanner.models.Cos;
 @Dao
 public interface CosDao {
     @Query("SELECT * FROM Cos")
-    List<Cos> getAll();
+    List<Cos> getAllCos();
 
     @Insert
     void insert(Cos cos);
@@ -25,9 +25,27 @@ public interface CosDao {
     @Delete
     void delete(Cos cos);
 
-    @Query("SELECT * FROM COS WHERE cid = :id")
+    @Query("SELECT * FROM Cos WHERE cid = :id")
     Cos findById(int id);
 
-    @Query("SELECT * FROM COS WHERE Name LIKE '%' || :name || '%'")
-    List<Cos> findByName(String name);
+    @Query("SELECT * FROM Cos WHERE Name LIKE :name OR `Series name` LIKE :name")
+    List<Cos> searchCos(String name);
+
+    @Query("SELECT * FROM Cos ORDER BY name")
+    List<Cos> orderByName();
+
+    @Query("SELECT * FROM Cos ORDER BY `Series name`")
+    List<Cos> orderBySeries();
+
+    @Query("SELECT * FROM Cos ORDER BY budget")
+    List<Cos> orderByBudget();
+
+    @Query("SELECT * FROM Cos ORDER BY `Init date`")
+    List<Cos> orderByInitDate();
+
+    @Query("SELECT * FROM Cos ORDER BY `Due date`")
+    List<Cos> orderByDueDate();
+
+    @Query("SELECT * FROM Cos WHERE `Is Completed` = :completed")
+    List<Cos> getCompletedCos(boolean completed);
 }
