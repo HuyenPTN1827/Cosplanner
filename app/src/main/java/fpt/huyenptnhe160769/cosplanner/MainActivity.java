@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private ListView listView;
     private AppDatabase db;
     private List<Cos> cosList;
+    private EditText searchEditText;
+    private TextView emptyTextView;
     private LinearLayout rowInitDate, rowDueDate, rowBudget;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 
@@ -60,7 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(this);
         listView = findViewById(R.id.CosList_ListView);
-        
+        searchEditText = findViewById(R.id.CosList_EditTextSearch);
+        emptyTextView = findViewById(R.id.CosList_TextViewEmpty);
+
+        cosList = db.cosDao().getAllCos();
         loadCosList();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -80,10 +87,42 @@ public class MainActivity extends AppCompatActivity {
                 showAddDialog();
             }
         });
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                searchCos(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void searchCos(String string) {
+        cosList = db.cosDao().searchCos("%" + string + "%");
+        loadCosList();
+        updateEmptyView();
+    }
+
+    private void updateEmptyView() {
+        if (cosList.isEmpty()) {
+            emptyTextView.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+        } else {
+            emptyTextView.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void loadCosList() {
-        cosList = db.cosDao().getAllCos();
         ArrayAdapter<Cos> adapter = new ArrayAdapter<Cos>(this, R.layout.row_cos_list, cosList) {
             @NonNull
             @Override
@@ -103,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         listView.setAdapter(adapter);
+        updateEmptyView();
     }
 
     private void showAddDialog() {
@@ -208,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
                 db.cosDao().insert(cos);
 
+                cosList = db.cosDao().getAllCos();
                 loadCosList();
                 dialog.dismiss();
             }
