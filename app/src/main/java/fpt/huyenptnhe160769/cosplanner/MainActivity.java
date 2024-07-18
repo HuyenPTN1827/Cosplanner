@@ -76,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         spinnerSortType = findViewById(R.id.CosList_SpinnerSortType);
         spinnerOrderType = findViewById(R.id.CosList_SpinnerOrderType);
 
+        // Update the list when starting the application
+        updateCosList();
+
         spinnerFilterStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -115,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Update the list when starting the application
-        updateCosList();
-
         //Intent Cos Detail
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -153,6 +153,12 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCosList();
     }
 
     private void filterCosList() {
