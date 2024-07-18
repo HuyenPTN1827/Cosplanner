@@ -11,7 +11,7 @@
         <item>Ngày bắt đầu</item>
         <item>Ngày kết thúc</item>
         <item>Ngân quỹ</item>
-        <item>Tổng tiền</item>
+<!--        <item>Tổng tiền</item>-->
     </array>
     <array name="order_type_values">
         <item>Nhỏ đến Lớn</item>

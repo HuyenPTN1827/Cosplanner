@@ -37,9 +37,17 @@ public class Cos {
     public Cos() {
     }
 
-    public Cos(String name, String series) {
-        this.name = name;
-        this.series = series;
+//    public Cos(String name, String series, ) {
+//        this.name = name;
+//        this.series = series;
+//    }
+
+
+    public Cos(double budget, long initDate, String note, long dueDate) {
+        this.budget = budget;
+        this.initDate = initDate;
+        this.note = note;
+        this.dueDate = dueDate;
     }
 
     public int getCid() {
