@@ -12,7 +12,8 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/empty_character"
-        android:contentDescription="@string/con_desc_image_cos"/>
+        android:contentDescription="@string/con_desc_image_cos"
+        android:layout_marginRight="5dp"/>
 
     <LinearLayout
         android:layout_gravity="center_vertical"
