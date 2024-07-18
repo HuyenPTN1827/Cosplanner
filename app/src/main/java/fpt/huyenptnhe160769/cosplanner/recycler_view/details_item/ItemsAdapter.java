@@ -5,14 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.List;
 
+import fpt.huyenptnhe160769.cosplanner.DetailsActivity;
 import fpt.huyenptnhe160769.cosplanner.R;
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.dialog.EditItemDialog;
@@ -22,11 +25,13 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
     List<Element> items;
     Context context;
     AppDatabase db;
+    int cosId;
 
-    public ItemsAdapter (List<Element> items, Context context, AppDatabase db){
-        this.items = items;
+    public ItemsAdapter (int id, Context context, AppDatabase db){
         this.context = context;
         this.db = db;
+        cosId = id;
+        items = db.elementDao().getByCosId(id);
     }
 
     @NonNull
@@ -49,75 +54,61 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
 //        }
 
         holder.name.setText(item.name);
-        holder.name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditItemDialog editItemDialog = new EditItemDialog(item, context) {
-                    @Override
-                    public void EditItem(String name, String price, boolean done, boolean priority) {
-                        Element e = db.elementDao().findById(item.eid);
-                        if(e == null) {
-                            Log.e(this.getClass().getName(), "Cannot find item in database");
-                            return;
-                        }
-                        e.name = name;
-                        e.cost = Double.valueOf(price);
-                        e.isComplete = done;
-                        e.isPriority = priority;
-
-                        db.elementDao().update(e);
-                    }
-
-                    @Override
-                    public void DeleteElement() {
-                        Element e = db.elementDao().findById(item.eid);
-                        if(e == null) {
-                            Log.e(this.getClass().getName(), "Cannot find item in database");
-                            return;
-                        }
-                        db.elementDao().delete(e);
-                    }
-
-                    @Override
-                    public void AddPicture(String url) {
-                        Element e = db.elementDao().findById(item.eid);
-                        if(e == null) {
-                            Log.e(this.getClass().getName(), "Cannot find item in database");
-                            return;
-                        }
-                        e.pictureURL = url;
-                        db.elementDao().update(e);
-                    }
-
-                    @Override
-                    public void RemovePicture() {
-                        Element e = db.elementDao().findById(item.eid);
-                        if(e == null) {
-                            Log.e(this.getClass().getName(), "Cannot find item in database");
-                            return;
-                        }
-                        e.pictureURL = "";
-                        db.elementDao().update(e);
-                    }
-                };
-            }
-        });
-
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setCurrency(Currency.getInstance("VND"));
+        format.setParseIntegerOnly(true);
+        format.setMaximumFractionDigits(0);
         holder.price.setText(String.valueOf(format.format(item.cost)));
 
         if (item.isComplete) holder.isComplete.setImageResource(R.drawable.ic_ready);
         else holder.isComplete.setImageResource(R.drawable.ic_not_ready);
 
-        if (item.isPriority) holder.holdr.setBackgroundColor(context.getColor(R.color.row));
-        else holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+        if (item.isPriority) {
+            holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+            holder.isPriority.setImageResource(R.drawable.ic_menu_rate);
+        }
+        else {
+            holder.holdr.setBackgroundColor(context.getColor(R.color.row));
+            holder.isPriority.setImageDrawable(null);
+        }
 
         if (item.pictureURL != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
-        else holder.isComplete.setImageResource(R.drawable.ic_row_picture_off);
+        else holder.hasPicture.setImageResource(R.drawable.ic_row_picture_off);
 
-        if (item.note != null) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
-        else holder.isComplete.setImageResource(R.drawable.ic_row_notes_off);
+        if (item.note != null && item.note.length() > 0) holder.hasNote.setImageResource(R.drawable.ic_row_notes_on);
+        else holder.hasNote.setImageResource(R.drawable.ic_row_notes_off);
+
+        holder.isComplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.isComplete = !item.isComplete;
+                db.elementDao().update(item);
+                items = db.elementDao().getByCosId(cosId);
+                notifyDataSetChanged();
+            }
+        });
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditItemDialog editItemDialog = new EditItemDialog(item, context, db);
+                try {
+                    editItemDialog.setOnFinishListener(((DetailsActivity) context));
+                    editItemDialog.show(((AppCompatActivity) context).getSupportFragmentManager(), editItemDialog.getClass().getName());
+                } catch (Exception ex) {
+                    Toast.makeText(context, "Cannot open edit window!", Toast.LENGTH_SHORT).show();
+                    Log.e(ItemsAdapter.class.getName(), ex.getMessage());
+                }
+            }
+        });
+        holder.isPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                item.isPriority = !item.isPriority;
+                db.elementDao().update(item);
+                items = db.elementDao().getByCosId(cosId);
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override

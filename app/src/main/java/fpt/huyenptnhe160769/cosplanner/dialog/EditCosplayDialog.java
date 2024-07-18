@@ -1,50 +1,49 @@
 package fpt.huyenptnhe160769.cosplanner.dialog;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
-import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import java.util.Calendar;
 import java.util.Date;
 
+import fpt.huyenptnhe160769.cosplanner.DetailsActivity;
 import fpt.huyenptnhe160769.cosplanner.R;
+import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.models.Cos;
+import fpt.huyenptnhe160769.cosplanner.models.Element;
 import fpt.huyenptnhe160769.cosplanner.services.DateConverter;
 import fpt.huyenptnhe160769.cosplanner.services.ImageSaver;
 
-public abstract class EditCosplayDialog extends DialogFragment {
+public class EditCosplayDialog extends ListenDialogFragment {
     EditText name, sub, note;
-    ImageView image, addImage, removeImage;
+    ImageView picture, addImage, removeImage;
     DatePicker est;
     ImageSaver saver;
+    Bitmap initialPicture;
 
-    ActivityResultLauncher<Intent> arl;
     Context context;
     Cos cos;
-    public EditCosplayDialog(Cos cos, Context context){
+    AppDatabase db;
+    public EditCosplayDialog(Cos cos, Context context, AppDatabase db){
         this.cos = cos;
         this.context = context;
+        this.db = db;
     }
 
     @NonNull
@@ -59,13 +58,20 @@ public abstract class EditCosplayDialog extends DialogFragment {
         name = view.findViewById(R.id.edit_cosplay_name);
         sub = view.findViewById(R.id.edit_cosplay_sub);
         note = view.findViewById(R.id.edit_cosplay_note);
-        image = view.findViewById(R.id.edit_cosplay_picture);
+        picture = view.findViewById(R.id.edit_cosplay_picture);
         est = view.findViewById(R.id.edit_cosplay_est);
         addImage = view.findViewById(R.id.edit_cosplay_addPicture);
         removeImage = view.findViewById(R.id.edit_cosplay_removePicture);
 
         saver = new ImageSaver(context);
 
+        initialPicture = null;
+        if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null){
+            initialPicture = saver.loadImageFromStorage(cos.pictureURL);
+        }
+
+        if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null)
+            picture.setImageBitmap(saver.loadImageFromStorage(cos.pictureURL));
         name.setText(cos.name);
         sub.setText(cos.series);
         note.setText(cos.note);
@@ -79,14 +85,14 @@ public abstract class EditCosplayDialog extends DialogFragment {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageChooser(image);
+                imageChooser(picture);
             }
         });
         removeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (image.getDrawable() != null){
-                    image.setImageBitmap(null);
+                if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null){
+                    picture.setImageResource(R.drawable.empty_character);
                     saver.removeFromInternalStorage(cos.pictureURL);
                     RemoveImage();
                 }
@@ -97,20 +103,48 @@ public abstract class EditCosplayDialog extends DialogFragment {
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String imageURL = saver.saveToInternalStorage(saver.convertToBitmap(image), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+                        String imageURL = saver.saveToInternalStorage(saver.convertToBitmap(picture), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
 
                         AddImage(imageURL);
+                        initialPicture = saver.convertToBitmap(picture);
                         EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), imageURL, new Date(est.getYear(), est.getMonth() + 1, est.getDayOfMonth()));
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        EditCosplayDialog.this.getDialog().cancel();
+                        EditCosplayDialog.this.getDialog().dismiss();
                     }
                 });
 
         return builder.create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        revertData();
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        revertData();
+        super.onCancel(dialog);
+    }
+
+    private void revertData() {
+        if (initialPicture != saver.convertToBitmap(picture)){
+            if (initialPicture == null){
+                picture.setImageResource(R.drawable.empty_character);
+                saver.removeFromInternalStorage(cos.pictureURL);
+                RemoveImage();
+            }
+            else {
+                String url = saver.saveToInternalStorage(initialPicture, ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+                AddPicture(url, ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+            }
+        }
+//        Toast.makeText(context, initialPicture == null ? "Null" : "Not null", Toast.LENGTH_SHORT).show();
     }
 
     private void imageChooser(ImageView image) {
@@ -121,28 +155,87 @@ public abstract class EditCosplayDialog extends DialogFragment {
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
 
-        arl = ((ComponentActivity)context).registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if (o.getResultCode() == RESULT_OK){
-                            Uri uri = o.getData().getData();
-                            if (uri != null){
-                                image.setImageURI(uri);
-                                String url = saver.saveToInternalStorage(saver.convertToBitmap(image), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
-                                AddImage(url);
-                            }
-                        }
-                    }
-                }
-        );
+//        arl = ((ComponentActivity)context).registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult o) {
+//                        if (o.getResultCode() == RESULT_OK){
+//                            Uri uri = o.getData().getData();
+//                            if (uri != null){
+//                                image.setImageURI(uri);
+//                                String url = saver.saveToInternalStorage(saver.convertToBitmap(image), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+//                                AddImage(url);
+//                            }
+//                        }
+//                    }
+//                }
+//        );
         // pass the constant to compare it
         // with the returned requestCode
-        arl.launch(i);
+//        arl.launch(i);
+
+        startActivityForResult(i, 1);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1){
+            try {
+                Uri uri = data.getData();
+                if (uri != null){
+                    setImage(uri);
+                }
+            }
+            catch (Exception ex){
+
+            }
+        }
     }
 
-    public abstract void EditCosplay(String name, String sub, String note, String imageURL, Date est);
-    public abstract void AddImage(String imageURL);
-    public abstract void RemoveImage();
+    private void setImage(Uri uri) {
+        picture.setImageURI(uri);
+        String url = saver.saveToInternalStorage(saver.convertToBitmap(picture), ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+        AddPicture(url, ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
+    }
+
+    public void EditCosplay(String name, String sub, String note, String imageURL, Date est){
+        cos.name = name;
+        cos.series = sub;
+        cos.note = note;
+        cos.pictureURL = imageURL;
+        cos.dueDate = DateConverter.toTimestamp(est);
+        db.cosDao().update(cos);
+    }
+    public void AddImage(String imageURL){
+        cos.pictureURL = imageURL;
+        db.cosDao().update(cos);
+    }
+    public void AddPicture(String url, ImageSaver.IMAGE_FOR ifor, int id){
+        switch (ifor) {
+            case COSPLAY:
+                Cos c = db.cosDao().findById(id);
+                if(c == null) {
+                    Log.e(this.getClass().getName(), "Cannot find item in database");
+                    return;
+                }
+                c.pictureURL = url;
+                db.cosDao().update(c);
+                break;
+            case ELEMENT:
+                Element e = db.elementDao().findById(id);
+                if(e == null) {
+                    Log.e(this.getClass().getName(), "Cannot find item in database");
+                    return;
+                }
+                e.pictureURL = url;
+                db.elementDao().update(e);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + ifor);
+        }
+    }
+    public void RemoveImage(){
+        cos.pictureURL = null;
+        db.cosDao().update(cos);
+    }
 }

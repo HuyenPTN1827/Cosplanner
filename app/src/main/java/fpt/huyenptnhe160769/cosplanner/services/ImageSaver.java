@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.activity.ComponentActivity;
@@ -36,9 +37,14 @@ public class ImageSaver {
         this.context = context;
     }
     public void removeFromInternalStorage(String path){
-        ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
-        File file = cw.getFileStreamPath(path);
-        file.delete();
+        try{
+            ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
+            File file = new File(path);
+            file.delete();
+        }
+        catch (Exception ex){
+            Log.e("Image Saver", "Cannot remove image");
+        }
     }
     public String saveToInternalStorage(Bitmap bitmapImage, IMAGE_FOR type, int id){
         ContextWrapper cw = new ContextWrapper(context.getApplicationContext());
@@ -75,7 +81,8 @@ public class ImageSaver {
         }
         return myPath.getAbsolutePath();
     }
-    public static Bitmap loadImageFromStorage(String path)
+
+    public Bitmap loadImageFromStorage(String path)
     {
 
         try {

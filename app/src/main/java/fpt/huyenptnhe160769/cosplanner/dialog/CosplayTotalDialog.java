@@ -31,6 +31,7 @@ public class CosplayTotalDialog extends DialogFragment {
 
         NumberFormat format = NumberFormat.getCurrencyInstance();
         format.setCurrency(Currency.getInstance("VND"));
+        format.setMaximumFractionDigits(0);
         String msg = "";
         double cost = 0;
         for (Element e :
@@ -39,12 +40,12 @@ public class CosplayTotalDialog extends DialogFragment {
         }
 
         msg += "Budget: " + format.format(cos.budget);
-        msg += "\nTotal cost: " + format.format(cost);
+        msg += "\n\nTotal cost: " + format.format(cost);
         if (cost > cos.budget){
-            msg += "\nOver budget: " + (-(cos.budget - cost));
+            msg += "\nOver budget: " + format.format(-(cos.budget - cost));
         }
         else if (cost < cos.budget){
-            msg += "\nRemaining budget: " + (cos.budget - cost);
+            msg += "\nRemaining budget: " + format.format(cos.budget - cost);
         }
         else {
             msg += "\n\n*Cost matches the budget!";
