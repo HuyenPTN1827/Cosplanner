@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Update the list when starting the application
         updateCosList();
+        saver = new ImageSaver(MainActivity.this);
 
         // Filter Cos by Type
         spinnerFilterStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

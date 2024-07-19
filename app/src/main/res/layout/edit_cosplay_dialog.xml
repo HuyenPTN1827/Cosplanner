@@ -24,6 +24,13 @@
             android:layout_margin="10dp"
             android:hint="Tên nhân vật"/>
         <EditText
+            android:id="@+id/edit_cosplay_budget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="number"
+            android:hint="Ngân sách"/>
+        <EditText
             android:id="@+id/edit_cosplay_sub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

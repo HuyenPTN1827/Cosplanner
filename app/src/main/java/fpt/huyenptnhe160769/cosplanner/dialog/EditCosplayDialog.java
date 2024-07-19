@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 
 import fpt.huyenptnhe160769.cosplanner.DetailsActivity;
@@ -32,7 +33,7 @@ import fpt.huyenptnhe160769.cosplanner.services.DateConverter;
 import fpt.huyenptnhe160769.cosplanner.services.ImageSaver;
 
 public class EditCosplayDialog extends ListenDialogFragment {
-    EditText name, sub, note;
+    EditText name, sub, note, budget;
     ImageView picture, addImage, removeImage;
     DatePicker est;
     ImageSaver saver;
@@ -59,6 +60,7 @@ public class EditCosplayDialog extends ListenDialogFragment {
         name = view.findViewById(R.id.edit_cosplay_name);
         sub = view.findViewById(R.id.edit_cosplay_sub);
         note = view.findViewById(R.id.edit_cosplay_note);
+        budget = view.findViewById(R.id.edit_cosplay_budget);
         picture = view.findViewById(R.id.edit_cosplay_picture);
         est = view.findViewById(R.id.edit_cosplay_est);
         addImage = view.findViewById(R.id.edit_cosplay_addPicture);
@@ -74,6 +76,8 @@ public class EditCosplayDialog extends ListenDialogFragment {
         if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null)
             picture.setImageBitmap(saver.loadImageFromStorage(cos.pictureURL));
         name.setText(cos.name);
+        DecimalFormat df = new DecimalFormat("#");
+        budget.setText(df.format(cos.budget));
         sub.setText(cos.series);
         note.setText(cos.note);
         Date setEstDate = DateConverter.toDate(cos.dueDate);
@@ -115,7 +119,7 @@ public class EditCosplayDialog extends ListenDialogFragment {
                         cos.pictureURL = imageURL;
                         db.cosDao().update(cos);
                         initialPicture = saver.convertToBitmap(picture);
-                        EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), new Date(est.getYear() - 1900, est.getMonth(), est.getDayOfMonth()));
+                        EditCosplay(name.getText().toString(), sub.getText().toString(), Double.parseDouble(budget.getText().toString()), note.getText().toString(), new Date(est.getYear() - 1900, est.getMonth(), est.getDayOfMonth()));
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
@@ -206,8 +210,9 @@ public class EditCosplayDialog extends ListenDialogFragment {
         AddPicture(url, ImageSaver.IMAGE_FOR.COSPLAY, cos.cid);
     }
 
-    public void EditCosplay(String name, String sub, String note, Date est){
+    public void EditCosplay(String name, String sub, double budget, String note, Date est){
         cos.name = name;
+        cos.budget = budget;
         cos.series = sub;
         cos.note = note;
         cos.dueDate = DateConverter.toTimestamp(est);
