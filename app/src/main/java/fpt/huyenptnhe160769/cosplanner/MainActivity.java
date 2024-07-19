@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -46,6 +47,7 @@ import java.util.Locale;
 
 import fpt.huyenptnhe160769.cosplanner.dao.AppDatabase;
 import fpt.huyenptnhe160769.cosplanner.models.Cos;
+import fpt.huyenptnhe160769.cosplanner.services.ImageSaver;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout rowInitDate, rowDueDate, rowBudget;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
     private Spinner spinnerFilterStatus, spinnerSortType, spinnerOrderType;
+    private ImageSaver saver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
                 TextView datesInit = convertView.findViewById(R.id.CosListViewDatesInit);
                 TextView datesEnd = convertView.findViewById(R.id.CosListViewDatesEnd);
                 TextView budgetTextView = convertView.findViewById(R.id.CosListViewGeneralInfoText);
+                ImageView picture = convertView.findViewById(R.id.CosListImage);
 
                 nameTextView.setText(cos.name);
                 seriesTextView.setText(cos.series);
@@ -251,6 +255,9 @@ public class MainActivity extends AppCompatActivity {
                 format.setCurrency(Currency.getInstance("VND"));
                 format.setMaximumFractionDigits(0);
                 budgetTextView.setText(format.format(cos.budget));
+                if (cos.pictureURL != null && saver.loadImageFromStorage(cos.pictureURL) != null){
+                    picture.setImageBitmap(saver.loadImageFromStorage(cos.pictureURL));
+                }
 
                 return convertView;
             }
