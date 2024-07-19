@@ -65,7 +65,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
         else holder.isComplete.setImageResource(R.drawable.ic_not_ready);
 
         if (item.isPriority) {
-            holder.holdr.setBackgroundColor(context.getColor(R.color.action_bar));
+            holder.holdr.setBackgroundColor(context.getColor(R.color.priority));
             holder.isPriority.setImageResource(R.drawable.ic_menu_rate);
         }
         else {

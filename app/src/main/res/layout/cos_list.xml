@@ -133,7 +133,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:divider="#202020"
-        android:dividerHeight="1px"
+        android:dividerHeight="2px"
         android:drawSelectorOnTop="true"
         android:fadingEdgeLength="0dp"
         android:listSelector="@drawable/custom_selector"

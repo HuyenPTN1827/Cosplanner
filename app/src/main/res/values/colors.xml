@@ -5,6 +5,7 @@
     <color name="background">#FF14191A</color>
     <color name="action_bar">#2E373B</color>
     <color name="row">#FF2E3233</color>
+    <color name="priority">#3C4B50</color>
     <color name="transparent">#0014191A</color>
     <color name="selected">#60000000</color>
 </resources>
