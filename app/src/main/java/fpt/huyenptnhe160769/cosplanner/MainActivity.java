@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (filterStatus.equals("Các Project đã hoàn thành")) {
             cosList = db.cosDao().getCompletedCos(true);
         }
-        sortCosList();
+        loadCosList();
     }
 
     private void sortCosList() {
