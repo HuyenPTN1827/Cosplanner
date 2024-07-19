@@ -115,7 +115,7 @@ public class EditCosplayDialog extends ListenDialogFragment {
                         cos.pictureURL = imageURL;
                         db.cosDao().update(cos);
                         initialPicture = saver.convertToBitmap(picture);
-                        EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), new Date(est.getYear(), est.getMonth() + 1, est.getDayOfMonth()));
+                        EditCosplay(name.getText().toString(), sub.getText().toString(), note.getText().toString(), new Date(est.getYear() - 1900, est.getMonth(), est.getDayOfMonth()));
                     }
                 })
                 .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
