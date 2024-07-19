@@ -84,7 +84,7 @@ public class EditCosplayDialog extends ListenDialogFragment {
         est.setMinDate(cos.initDate);
 //        Toast.makeText(context, String.valueOf(setEstDate.getYear()), Toast.LENGTH_SHORT).show();
 
-        est.updateDate(setEstDate.getYear() + 1900, setEstDate.getMonth() - 1, setEstDate.getDate());
+        est.updateDate(setEstDate.getYear() + 1900, setEstDate.getMonth(), setEstDate.getDate());
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
