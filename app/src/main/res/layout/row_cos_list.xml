@@ -34,7 +34,7 @@
             android:singleLine="true"/>
 
         <TextView
-            android:textSize="13sp"
+            android:textSize="15sp"
             android:textStyle="normal"
             android:textColor="#c0c0c0"
             android:gravity="top|left|center_vertical|center_horizontal|center"

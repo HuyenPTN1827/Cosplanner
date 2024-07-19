@@ -31,7 +31,7 @@ public interface CosDao {
     @Query("SELECT * FROM Cos WHERE Name LIKE :name OR `Series name` LIKE :name")
     List<Cos> searchCos(String name);
 
-    @Query("SELECT * FROM Cos ORDER BY name")
+    @Query("SELECT * FROM Cos ORDER BY Name")
     List<Cos> orderByName();
 
     @Query("SELECT * FROM Cos ORDER BY `Series name`")

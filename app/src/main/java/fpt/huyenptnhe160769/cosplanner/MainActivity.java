@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         // Update the list when starting the application
         updateCosList();
 
+        // Filter Cos by Type
         spinnerFilterStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Sort Cos by Type
         spinnerSortType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Order Cos by Type
         spinnerOrderType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (sortType.equals("Tên nhân vật")) {
             cosList = db.cosDao().orderByName();
-        } else if (sortType.equals("Manga/Anime-Comic/Games?")) {
+        } else if (sortType.equals("Tên series")) {
             cosList = db.cosDao().orderBySeries();
         } else if (sortType.equals("Ngày bắt đầu")) {
             cosList = db.cosDao().orderByInitDate();
@@ -237,7 +240,12 @@ public class MainActivity extends AppCompatActivity {
                 nameTextView.setText(cos.name);
                 seriesTextView.setText(cos.series);
                 datesInit.setText(dateFormat.format(DateConverter.toDate(cos.initDate)));
-                datesEnd.setText(dateFormat.format(DateConverter.toDate(cos.dueDate)));
+                if (cos.isComplete) {
+                    datesEnd.setText(dateFormat.format(DateConverter.toDate(cos.endDate)));
+                }
+                else {
+                    datesEnd.setText(dateFormat.format(DateConverter.toDate(cos.dueDate)));
+                }
 
                 NumberFormat format = NumberFormat.getCurrencyInstance();
                 format.setCurrency(Currency.getInstance("VND"));
@@ -349,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
                 cos.note = null;
                 cos.initDate = initDate;
                 cos.dueDate = dueDate;
-                cos.endDate = 0;
+                cos.endDate = dueDate;
                 cos.budget = budget;
                 cos.isComplete = false;
                 cos.pictureURL = null;

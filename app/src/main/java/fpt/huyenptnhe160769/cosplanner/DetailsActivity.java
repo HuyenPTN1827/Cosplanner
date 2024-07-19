@@ -136,6 +136,7 @@ public class DetailsActivity extends AppCompatActivity implements DialogFinishLi
                 if (cos.isComplete){
                     Toast.makeText(DetailsActivity.this, "Finish cosplay", Toast.LENGTH_SHORT).show();
                     cos.endDate = DateConverter.toTimestamp(new Date());
+//                    cos.dueDate = DateConverter.toTimestamp(new Date());
                 }
                 else
                     Toast.makeText(DetailsActivity.this, "Unfinish cosplay", Toast.LENGTH_SHORT).show();
