@@ -118,7 +118,11 @@ public class EditCosplayDialog extends ListenDialogFragment {
 
                         cos.pictureURL = imageURL;
                         db.cosDao().update(cos);
-                        initialPicture = saver.convertToBitmap(picture);
+
+                        ImageView empty = new ImageView(context);
+                        empty.setImageResource(R.drawable.empty_character);
+                        if (saver.convertToBitmap(picture) == saver.convertToBitmap(empty)) initialPicture = null;
+                        else initialPicture = saver.convertToBitmap(picture);
                         EditCosplay(name.getText().toString(), sub.getText().toString(), Double.parseDouble(budget.getText().toString()), note.getText().toString(), new Date(est.getYear() - 1900, est.getMonth(), est.getDayOfMonth()));
                     }
                 })

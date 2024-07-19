@@ -114,11 +114,16 @@ public class EditItemDialog extends ListenDialogFragment {
                 .setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         String imageURL = saver.saveToInternalStorage(saver.convertToBitmap(picture), ImageSaver.IMAGE_FOR.ELEMENT, item.eid);
 
                         item.pictureURL = imageURL;
                         db.elementDao().update(item);
-                        initialPicture = saver.convertToBitmap(picture);
+
+                        ImageView empty = new ImageView(context);
+                        empty.setImageResource(R.drawable.empty_character);
+                        if (saver.convertToBitmap(picture) == saver.convertToBitmap(empty)) initialPicture = null;
+                        else initialPicture = saver.convertToBitmap(picture);
                         EditItem(name.getText().toString(), note.getText().toString(), price.getText().toString(), done.isChecked(), priority.isChecked());
                     }
                 })

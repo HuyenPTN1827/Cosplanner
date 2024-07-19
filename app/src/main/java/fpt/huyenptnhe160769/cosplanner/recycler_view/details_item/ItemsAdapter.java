@@ -74,6 +74,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
         }
 
         ImageSaver saver = new ImageSaver(context);
+//        Toast.makeText(context, item.pictureURL, Toast.LENGTH_SHORT).show();
         if (item.pictureURL != null && saver.loadImageFromStorage(item.pictureURL) != null) holder.hasPicture.setImageResource(R.drawable.ic_row_picture_on);
         else holder.hasPicture.setImageResource(R.drawable.ic_row_picture_off);
 
